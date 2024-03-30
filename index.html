@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    
+    <title>Cash Journal Reconciliation</title>
+</head>
+<body>
+    <header>
+        <h1 class="text-center fw-semibold">Nespresso Metropolis Cash Journal Reconciliation</h1>
+        <p class="text-center">By Kunal Jeshang</p>
+
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+            <div class="container-fluid">
+              <!-- <a class="navbar-brand" href="#">Navbar</a> -->
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                  <li class="nav-item">
+                    <a class="nav-link" href="#" id="toggle_cashReconciliation">Cash Reconciliation</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#" id="toggle_creditDebitReconciliation">Credit Card & Debit Card Reconciliation</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#">GitHub Repository</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </nav>
+
+    </header>
+
+    <div id="cashReconciliation">
+        <table class="table table-hover table-bordered" id="cash_table">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col">Cash Denomination</th>
+                    <th scope="col">Count of Bill/Coin</th>
+                    <th scope="col">Cash Value</th>
+                </tr>
+            </thead>
+            <tbody class="table-group-divider" id="tbody">
+                <!-- $100 CAD -->
+                <tr>
+                    <th scope="row" id="hundred_denomination">100</th>
+                    <td>
+                        <input type="number" id="hundred_count" name="hundred_count" placeholder="Count of $100 Bills" onchange="calculateCashValue('hundred')">
+                    </td>
+                    <td id="hundred_value">0</td>
+                </tr>
+                <!-- $50 CAD -->
+                <tr>
+                    <th scope="row" id="fifty_denomination">50</th>
+                    <td>
+                        <input type="number" id="fifty_count" name="fifty_count" placeholder="Count of $50 Bills" onchange="calculateCashValue('fifty')">
+                    </td>
+                    <td id="fifty_value">0</td>
+                </tr>
+                <!-- $20 CAD -->
+                <tr>
+                    <th scope="row" id="twenty_denomination">20</th>
+                    <td>
+                        <input type="number" id="twenty_count" name="twenty_count" placeholder="Count of $20 Bills" onchange="calculateCashValue('twenty')">
+                    </td>
+                    <td id="twenty_value">0</td>
+                </tr>
+                <!-- $10 CAD -->
+                <tr>
+                    <th scope="row" id="ten_denomination">10</th>
+                    <td>
+                        <input type="number" id="ten_count" name="ten_count" placeholder="Count of $10 Bills" onchange="calculateCashValue('ten')">
+                    </td>
+                    <td id="ten_value">0</td>
+                </tr>
+                <!-- $5 CAD -->
+                <tr>
+                    <th scope="row" id="five_denomination">5</th>
+                    <td>
+                        <input type="number" id="five_count" name="five_count" placeholder="Count of $5 Bills" onchange="calculateCashValue('five')">
+                    </td>
+                    <td id="five_value">0</td>
+                </tr>
+                <!-- $2 CAD -->
+                <tr>
+                    <th scope="row" id="two_denomination">2</th>
+                    <td>
+                        <input type="number" id="two_count" name="two_count" placeholder="Count of $2 Coins" onchange="calculateCashValue('two')">
+                    </td>
+                    <td id="two_value">0</td>
+                </tr>
+                <!-- $1 CAD -->
+                <tr>
+                    <th scope="row" id="one_denomination">1</th>
+                    <td>
+                        <input type="number" id="one_count" name="one_count" placeholder="Count of $1 Coins" onchange="calculateCashValue('one')">
+                    </td>
+                    <td id="one_value">0</td>
+                </tr>
+                <!-- $0.25 CAD -->
+                <tr>
+                    <th scope="row" id="quarter_denomination">0.25</th>
+                    <td>
+                        <input type="number" id="quarter_count" name="quarter_count" placeholder="Count of $0.25 Coins" onchange="calculateCashValue('quarter')">
+                    </td>
+                    <td id="quarter_value">0</td>
+                </tr>
+                <!-- $0.10 CAD -->
+                <tr>
+                    <th scope="row" id="dime_denomination">0.10</th>
+                    <td>
+                        <input type="number" id="dime_count" name="dime_count" placeholder="Count of $0.10 Coins" onchange="calculateCashValue('dime')">
+                    </td>
+                    <td id="dime_value">0</td>
+                </tr>
+                <!-- $0.05 CAD -->
+                <tr>
+                    <th scope="row" id="nickel_denomination">0.05</th>
+                    <td>
+                        <input type="number" id="nickel_count" name="nickel_count" placeholder="Count of $0.05 Coins" onchange="calculateCashValue('nickel')">
+                    </td>
+                    <td id="nickel_value">0</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <button type="button" class="btn btn-primary">Opening</button>
+        <button type="button" class="btn btn-secondary">Closing</button>
+
+        <div id="open_cashReconciliation">
+            <p id="total_amount">0</p>
+        </div>
+        <div id="close_cashReconciliation">
+
+        </div>
+        
+    </div>
+
+    <div id="creditDebitReconciliation">
+        <p>Test</p>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
