@@ -2,6 +2,7 @@
 document.getElementById("creditDebitReconciliation").style.display = "none";
 document.getElementById("open_cashReconciliation").style.display = "none";
 document.getElementById("close_cashReconciliation").style.display = "none";
+document.getElementById("creditCash_summary").style.display = "none";
 
 // *** Reset Webpage ***
 function reset(){
@@ -28,6 +29,16 @@ document.getElementById("toggle_openCashReconciliation").addEventListener("click
 document.getElementById("toggle_closeCashReconciliation").addEventListener("click", () => {
     document.getElementById("close_cashReconciliation").style.display = "block";
     document.getElementById("open_cashReconciliation").style.display = "none";
+});
+
+// *** Toggle Credit & Debit Reconciliation Summary ***
+document.getElementById("toggle_creditDebitSummary").addEventListener("click", () =>{
+    if(document.getElementById("creditCash_summary").style.display === "none"){
+        document.getElementById("creditCash_summary").style.display = "block";
+    }
+    else if(document.getElementById("creditCash_summary").style.display === "block"){
+        document.getElementById("creditCash_summary").style.display = "none";
+    }
 });
 
 // CASH RECONCILIATION --------------------------------------------------------------------------------------------------
@@ -64,11 +75,8 @@ function calculateCashValue(base_amount){
 function finalizeCashOutcome(shift){
     // var total_amount = parseFloat(document.getElementById("total_amount").innerHTML.toString());
     if(shift == "open"){
-        // console.log(shift);
         var total_amount = parseFloat(document.getElementById("total_amount_open").innerHTML.toString());
-        // console.log(total_amount);
         var cashJournalAmount = parseFloat(document.getElementById("cashJournalAmount_open").innerHTML);
-        // console.log(cashJournalAmount);
         var outcome = "";
         if(cashJournalAmount > total_amount){
             outcome = "Short";
@@ -80,17 +88,13 @@ function finalizeCashOutcome(shift){
             outcome = "Balanced"
         }
         document.getElementById("outcome_cashOpen").innerHTML = outcome;
-        // console.log(outcome);
         difference = Math.abs(total_amount - cashJournalAmount);
         document.getElementById("difference_cashOpen").innerHTML = difference;
-        // console.log(difference);
     }
     else if(shift == "close"){
         console.log(shift);
         var total_amount = parseFloat(document.getElementById("total_amount_close").innerHTML.toString());
-        console.log(total_amount);
         var cashJournalAmount = parseFloat(document.getElementById("cashJournalAmount_close").value);
-        console.log(cashJournalAmount);
         var outcome = "";
         if(cashJournalAmount > total_amount){
             outcome = "Short";
@@ -102,10 +106,8 @@ function finalizeCashOutcome(shift){
             outcome = "Balanced"
         }
         document.getElementById("outcome_cashClose").innerHTML = outcome;
-        console.log(outcome);
         difference = Math.abs(total_amount - cashJournalAmount);
         document.getElementById("difference_cashClose").innerHTML = difference.toString();
-        console.log(difference);
     }
 }
 
@@ -172,3 +174,109 @@ document.getElementById("cashJournalAmount_close").addEventListener("change", ()
 });
 
 // CREDIT & DEBIT RECONCILIATION --------------------------------------------------------------------------------------------------
+
+var salesDesk_list = ["A","B","D","G","F","E","H"];
+
+var tbody_creditDebit = document.getElementById("tbody_creditDebit");
+var trElements_creditDebit = tbody_creditDebit.getElementsByTagName("tr");
+var numberOfTR_creditDebit = trElements_creditDebit.length;
+console.log("Number of <tr> elements in <tbody>: " + numberOfTR_creditDebit);
+
+// *** Outcome for a specific sales desk ***
+function calculateCreditDebitValue(salesDesk){
+    
+    var terminal_amount = parseFloat(document.getElementById("terminal_"+salesDesk).value);
+    if(isNaN(terminal_amount)){
+        terminal_amount = 0;
+    }
+    
+    var pos_amount = parseFloat(document.getElementById("pos_"+salesDesk).value);
+    if(isNaN(pos_amount)){
+        pos_amount = 0;
+    }
+    
+    var register_amount = parseFloat(document.getElementById("register_"+salesDesk).value);
+    if(isNaN(register_amount)){
+        register_amount = 0;
+    }
+
+    var cashJournal_amount = parseFloat(pos_amount) + parseFloat(register_amount);
+    var difference = Math.abs(parseFloat(terminal_amount) - parseFloat(cashJournal_amount));
+    var outcome = "";
+    if(terminal_amount > cashJournal_amount){
+        outcome = "Over";
+    }
+    else if(terminal_amount < cashJournal_amount){
+        outcome = "Short";
+    }
+    else if(terminal_amount == cashJournal_amount){
+        outcome = "Balanced";
+    }
+
+    document.getElementById("difference_"+salesDesk).innerHTML = difference;
+    document.getElementById("outcome_"+salesDesk).innerHTML = outcome;
+}
+
+// *** Find overall outcome ***
+function finalizeCreditDebitOutcome(){
+    var total_terminalAmount = 0;
+    var total_posAmount = 0;
+    var total_registerAmount = 0;
+
+    for(i=0; i < numberOfTR_creditDebit; i++){
+        salesDesk = salesDesk_list[i];
+        console.log(salesDesk);
+        
+        var terminal_amount = parseFloat(document.getElementById("terminal_"+salesDesk).value);
+        console.log(terminal_amount);
+        if(!isNaN(terminal_amount)){
+            total_terminalAmount += parseFloat(terminal_amount)
+        };
+        
+        var pos_amount = parseFloat(document.getElementById("pos_"+salesDesk).value);
+        console.log(pos_amount);
+        if(!isNaN(pos_amount)){
+            total_posAmount += parseFloat(pos_amount);
+        }
+        
+        var register_amount = parseFloat(document.getElementById("register_"+salesDesk).value);
+        console.log(register_amount);
+        if(!isNaN(register_amount)){
+            total_registerAmount += parseFloat(register_amount);
+        }
+    }
+    console.log(total_terminalAmount);
+
+    var totalCashJournal_amount = parseFloat(total_posAmount) + parseFloat(total_registerAmount);
+    console.log(totalCashJournal_amount);
+    
+    var overall_difference = Math.abs(parseFloat(total_terminalAmount) - parseFloat(totalCashJournal_amount));
+    console.log(overall_difference);
+    
+    var final_outcome = "";
+    if(total_terminalAmount > totalCashJournal_amount){
+        final_outcome = "Over";
+    }
+    else if(total_terminalAmount < totalCashJournal_amount){
+        final_outcome = "Short";
+    }
+    else if(total_terminalAmount == totalCashJournal_amount){
+        final_outcome = "Balanced";
+    }
+    console.log(final_outcome);
+
+    document.getElementById("total_terminalAmount").innerHTML = total_terminalAmount.toString();
+    document.getElementById("total_cashJournalAmount").innerHTML = totalCashJournal_amount.toString();
+    document.getElementById("overall_difference").innerHTML = overall_difference.toString();
+    document.getElementById("final_outcome").innerHTML = final_outcome.toString();
+}
+
+document.getElementById("creditDebit_table").addEventListener("change", () => {
+    finalizeCreditDebitOutcome();
+    // for(i=0; i < numberOfTR_creditDebit; i++){
+    //     salesDesk = salesDesk_list[i];
+    //     document.getElementById("terminal_"+salesDesk).addEventListener("change", finalizeCreditDebitOutcome());
+    //     document.getElementById("pos_"+salesDesk).addEventListener("change", finalizeCreditDebitOutcome());
+    //     document.getElementById("register_"+salesDesk).addEventListener("change", finalizeCreditDebitOutcome());
+    // }
+});

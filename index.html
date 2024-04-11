@@ -154,6 +154,7 @@
                     <button type="button" class="btn btn-danger" id="toggle_closeCashReconciliation">Closing Summary</button>
                 </div>
             </div>
+            <hr>
         </div>
         
         <!-- Opening Cash Reconciliation Summary -->
@@ -219,13 +220,177 @@
                     </tr>
                 </tbody>
             </table>
+            <div id="eod_deposit"></div>
         </div>
         
     </div>
 
     <!-- CREDIT & DEBIT RECONCILIATION ************************************************************************************************ -->
     <div id="creditDebitReconciliation">
-        <p>Test</p>
+        <table class="table table-hover table-bordered table-striped" id="creditDebit_table">
+            <thead class="table-dark">
+                <tr scope="row">
+                    <th scope="col">Sales Desk</th>
+                    <th scope="col">Till No.</th>
+                    <th scope="col">Terminal</th>
+                    <th scope="col">POS</th>
+                    <th scope="col">Register</th>
+                    <th scope="col">Difference</th>
+                    <th scope="col">Outcome</th>
+                </tr>
+            </thead>
+            <tbody class="table-group-divider" id="tbody_creditDebit">
+                <!-- Sales Desk A / Till 1 -->
+                <tr scope="row">
+                    <td scope="col">A</td>
+                    <td scope="col">1</td>
+                    <td scope="col">
+                        <input type="number" id="terminal_A" name="terminal_A" placeholder="Till 1 Terminal Amount" onchange="calculateCreditDebitValue('A')">
+                    </td>
+                    <td scope="col">
+                        <input type="number" id="pos_A" name="pos_A" placeholder="Till 1 POS Amount" onchange="calculateCreditDebitValue('A')">
+                    </td>
+                    <td scope="col">
+                        <input type="number" id="register_A" name="register_A" placeholder="Till 1 Register Amount" onchange="calculateCreditDebitValue('A')">
+                    </td>
+                    <td scope="col" id="difference_A">0</td>
+                    <td scope="col" id="outcome_A">Balanced</td>
+                </tr>
+                <!-- Sales Desk B / Till 2 -->
+                <tr scope="row">
+                    <td scope="col">B</td>
+                    <td scope="col">2</td>
+                    <td scope="col">
+                        <input type="number" id="terminal_B" name="terminal_B" placeholder="Till 2 Terminal Amount" onchange="calculateCreditDebitValue('B')">
+                    </td>
+                    <td scope="col">
+                        <input type="number" id="pos_B" name="pos_B" placeholder="Till 2 POS Amount" onchange="calculateCreditDebitValue('B')">
+                    </td>
+                    <td scope="col">
+                        <input type="number" id="register_B" name="register_B" placeholder="Till 2 Register Amount" onchange="calculateCreditDebitValue('B')">
+                    </td>
+                    <td scope="col" id="difference_B">0</td>
+                    <td scope="col" id="outcome_B">Balanced</td>
+                </tr>
+                <!-- Sales Desk D / Till 4 -->
+                <tr scope="row">
+                    <td scope="col">D</td>
+                    <td scope="col">4</td>
+                    <td scope="col">
+                        <input type="number" id="terminal_D" name="terminal_D" placeholder="Till 4 Terminal Amount" onchange="calculateCreditDebitValue('D')">
+                    </td>
+                    <td scope="col">
+                        <input type="number" id="pos_D" name="pos_D" placeholder="Till 4 POS Amount" onchange="calculateCreditDebitValue('D')">
+                    </td>
+                    <td scope="col">
+                        <input type="number" id="register_D" name="register_D" placeholder="Till 4 Register Amount" onchange="calculateCreditDebitValue('D')">
+                    </td>
+                    <td scope="col" id="difference_D">0</td>
+                    <td scope="col" id="outcome_D">Balanced</td>
+                </tr>
+                <!-- Sales Desk G / Till 5 -->
+                <tr scope="row">
+                    <td scope="col">G</td>
+                    <td scope="col">5</td>
+                    <td scope="col">
+                        <input type="number" id="terminal_G" name="terminal_G" placeholder="Till 5 Terminal Amount" onchange="calculateCreditDebitValue('G')">
+                    </td>
+                    <td scope="col">
+                        <input type="number" id="pos_G" name="pos_G" placeholder="Till 5 POS Amount" onchange="calculateCreditDebitValue('G')">
+                    </td>
+                    <td scope="col">
+                        <input type="number" id="register_G" name="register_G" placeholder="Till 5 Register Amount" onchange="calculateCreditDebitValue('G')">
+                    </td>
+                    <td scope="col" id="difference_G">0</td>
+                    <td scope="col" id="outcome_G">Balanced</td>
+                </tr>
+                <!-- Sales Desk F / Till 6 -->
+                <tr scope="row">
+                    <td scope="col">F</td>
+                    <td scope="col">6</td>
+                    <td scope="col">
+                        <input type="number" id="terminal_F" name="terminal_F" placeholder="Till 6 Terminal Amount" onchange="calculateCreditDebitValue('F')">
+                    </td>
+                    <td scope="col">
+                        <input type="number" id="pos_F" name="pos_F" placeholder="Till 6 POS Amount" onchange="calculateCreditDebitValue('F')">
+                    </td>
+                    <td scope="col">
+                        <input type="number" id="register_F" name="register_F" placeholder="Till 6 Register Amount" onchange="calculateCreditDebitValue('F')">
+                    </td>
+                    <td scope="col" id="difference_F">0</td>
+                    <td scope="col" id="outcome_F">Balanced</td>
+                </tr>
+                <!-- Sales Desk E / Till 7 -->
+                <tr scope="row">
+                    <td scope="col">E</td>
+                    <td scope="col">7</td>
+                    <td scope="col">
+                        <input type="number" id="terminal_E" name="terminal_E" placeholder="Till 7 Terminal Amount" onchange="calculateCreditDebitValue('E')">
+                    </td>
+                    <td scope="col">
+                        <input type="number" id="pos_E" name="pos_E" placeholder="Till 7 POS Amount" onchange="calculateCreditDebitValue('E')">
+                    </td>
+                    <td scope="col">
+                        <input type="number" id="register_E" name="register_E" placeholder="Till 7 Register Amount" onchange="calculateCreditDebitValue('E')">
+                    </td>
+                    <td scope="col" id="difference_E">0</td>
+                    <td scope="col" id="outcome_E">Balanced</td>
+                </tr>
+                <!-- Sales Desk H / Till 9 -->
+                <tr scope="row">
+                    <td scope="col">H</td>
+                    <td scope="col">9</td>
+                    <td scope="col">
+                        <input type="number" id="terminal_H" name="terminal_H" placeholder="Till H Terminal Amount" onchange="calculateCreditDebitValue('H')">
+                    </td>
+                    <td scope="col">
+                        <input type="number" id="pos_H" name="pos_H" placeholder="Till 9 POS Amount" onchange="calculateCreditDebitValue('H')">
+                    </td>
+                    <td scope="col">
+                        <input type="number" id="register_H" name="register_H" placeholder="Till 9 Register Amount" onchange="calculateCreditDebitValue('H')">
+                    </td>
+                    <td scope="col" id="difference_H">0</td>
+                    <td scope="col" id="outcome_H">Balanced</td>
+                </tr>
+            </tbody>
+        </table>
+        <hr>
+        
+        <div class="text-center">
+            <button type="button" class="btn btn-success" id="toggle_creditDebitSummary">Show Summary</button>
+            <hr>
+        </div>
+        
+        <div id="creditCash_summary">
+            <h6 class="display-6 text-center">Reconciliation Summary</h6>
+            <table class="table table-bordered border-success">
+                <tbody>
+                    <tr scope="row">
+                        <th scope="col">Total Terminal Amount</th>
+                        <td scope="col" id="total_terminalAmount">0</td>
+                    </tr>
+                    <tr scope="row">
+                        <th scope="col">Cash Journal Amount</th>
+                        <td scope="col" id="total_cashJournalAmount">0</td>
+                    </tr>
+                    <tr scope="row">
+                        <th scope="col">Overall Difference</th>
+                        <td scope="col" id="overall_difference">0</td>
+                    </tr>
+                    <tr scope="row">
+                        <th scope="col">Final Outcome</th>
+                        <td scope="col" id="final_outcome">Balanced</td>
+                    </tr>
+                    <tr scope="row">
+                        <th scope="col">Comments</th>
+                        <td scope="col">
+                            <textarea rows="4" cols="50" name="comment_creditDebit"></textarea>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
     </div>
     
     <script src="script.js"></script>
