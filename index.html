@@ -17,7 +17,7 @@
     <h1 class="text-center fw-semibold">Nespresso Metropolis Cash Journal Reconciliation</h1>
     <p class="text-center">By Kunal Jeshang</p>
 
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary" id="navigationBar">
         <div class="container-fluid">
           <!-- <a class="navbar-brand" href="#">Navbar</a> -->
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -35,8 +35,8 @@
                 <a class="nav-link" href="https://github.com/kjeshang/NespressoMetropolisCashJournalReconciliation" target="_blank">GitHub Repository</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <button type="button" class="btn btn-warning">Generate Report</button>
+                <a class="nav-link">
+                    <button type="button" class="btn btn-warning" onclick="generate_report()">Generate Report</button>
                 </a>
               </li>
               <li class="nav-item">
@@ -50,9 +50,10 @@
       </nav>
 </header>
 
-<body>
+<body id="content">
     <!-- CASH RECONCILIATION ************************************************************************************************************* -->
     <div id="cashReconciliation">
+        <p class="fw-semibold text-center">Cash Reconciliation</p>
         <table class="table table-hover table-bordered table-striped" id="cash_table">
             <thead class="table-dark">
                 <tr>
@@ -220,13 +221,89 @@
                     </tr>
                 </tbody>
             </table>
-            <div id="eod_deposit"></div>
+
+            <div class="text-center">
+                <button type="button" class="btn btn-secondary" id="toggle_eodDeposit" onclick="setDeposit()">Set Deposit</button>
+            </div>
+            <br>
+
+            <div id="eod_deposit">
+                <table class="table table-bordered border-secondary">
+                    <thead>
+                        <tr scope="row">
+                            <th scope="col">Cash Denomination</th>
+                            <th scope="col">Count of Bill/Coin</th>
+                            <th scope="col">Cash Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr scope="row">
+                            <td scope="col">100</td>
+                            <td scope="col" id="hundred_eod_count"></td>
+                            <td scope="col" id="hundred_eod_value"></td>
+                        </tr>
+                        <tr scope="row">
+                            <td scope="col">50</td>
+                            <td scope="col" id="fifty_eod_count"></td>
+                            <td scope="col" id="fifty_eod_value"></td>
+                        </tr>
+                        <tr scope="row">
+                            <td scope="col">20</td>
+                            <td scope="col" id="twenty_eod_count"></td>
+                            <td scope="col" id="twenty_eod_value"></td>
+                        </tr>
+                        <tr scope="row">
+                            <td scope="col">10</td>
+                            <td scope="col" id="ten_eod_count"></td>
+                            <td scope="col" id="ten_eod_value"></td>
+                        </tr>
+                        <tr scope="row">
+                            <td scope="col">5</td>
+                            <td scope="col" id="five_eod_count"></td>
+                            <td scope="col" id="five_eod_value"></td>
+                        </tr>
+                        <tr scope="row">
+                            <td scope="col">2</td>
+                            <td scope="col" id="two_eod_count"></td>
+                            <td scope="col" id="two_eod_value"></td>
+                        </tr>
+                        <tr scope="row">
+                            <td scope="col">1</td>
+                            <td scope="col" id="one_eod_count"></td>
+                            <td scope="col" id="one_eod_value"></td>
+                        </tr>
+                        <tr scope="row">
+                            <td scope="col">0.25</td>
+                            <td scope="col" id="quarter_eod_count"></td>
+                            <td scope="col" id="quarter_eod_value"></td>
+                        </tr>
+                        <tr scope="row">
+                            <td scope="col">0.10</td>
+                            <td scope="col" id="dime_eod_count"></td>
+                            <td scope="col" id="dime_eod_value"></td>
+                        </tr>
+                        <tr scope="row">
+                            <td scope="col">0.05</td>
+                            <td scope="col" id="nickel_eod_count"></td>
+                            <td scope="col" id="nickel_eod_value"></td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr scope="row">
+                            <th scope="col"></th>
+                            <th scope="col">End-of-Day Deposit</th>
+                            <th scope="col" id="eod_deposit_value"></th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
         </div>
         
     </div>
 
     <!-- CREDIT & DEBIT RECONCILIATION ************************************************************************************************ -->
     <div id="creditDebitReconciliation">
+        <p class="fw-semibold text-center">Credit & Debit Reconciliation</p>
         <table class="table table-hover table-bordered table-striped" id="creditDebit_table">
             <thead class="table-dark">
                 <tr scope="row">
@@ -390,9 +467,12 @@
                 </tbody>
             </table>
         </div>
-
     </div>
-    
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="script.js"></script>
 </body>
+
 </html>

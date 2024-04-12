@@ -3,10 +3,18 @@ document.getElementById("creditDebitReconciliation").style.display = "none";
 document.getElementById("open_cashReconciliation").style.display = "none";
 document.getElementById("close_cashReconciliation").style.display = "none";
 document.getElementById("creditCash_summary").style.display = "none";
+document.getElementById("eod_deposit").style.display = "none";
 
 // *** Reset Webpage ***
 function reset(){
     location.reload();
+}
+
+// *** Generate Report ***
+function generate_report(){
+    document.getElementById("navigationBar").style.display = "none";
+    window.print();
+    document.getElementById("navigationBar").style.display = "block";
 }
 
 // *** Toggle between Cash and Credit Reconciliation ***
@@ -38,6 +46,16 @@ document.getElementById("toggle_creditDebitSummary").addEventListener("click", (
     }
     else if(document.getElementById("creditCash_summary").style.display === "block"){
         document.getElementById("creditCash_summary").style.display = "none";
+    }
+});
+
+// *** Toggle EOD Deposit Breakdown ***
+document.getElementById("toggle_eodDeposit").addEventListener("click", () => {
+    if(document.getElementById("eod_deposit").style.display === "none"){
+        document.getElementById("eod_deposit").style.display = "block";
+    }
+    else if(document.getElementById("eod_deposit").style.display === "block"){
+        document.getElementById("eod_deposit").style.display = "none";
     }
 });
 
@@ -169,12 +187,53 @@ document.getElementById("cash_table").addEventListener("change", () => {
     // document.getElementById("cash_table").addEventListener("change", finalizeCashOutcome("close"));
 });
 
+// *** Set EOD Deposit ***
+function setDeposit(){
+    var eodEarnings = parseFloat(document.getElementById("total_amount_close").innerHTML.toString());
+    console.log(eodEarnings);
+    var deposit_amount = 0;
+
+    for(i=0; i < denomination_list.length; i++){
+        var base_amount = denomination_list[i];
+        // console.log(base_amount);
+        var denomination_id = base_amount + "_denomination";
+        // console.log(denomination_id);
+        var count_id = base_amount + "_count";
+        // console.log(count_id);
+
+        var denomination = parseFloat(document.getElementById(denomination_id).innerHTML.toString());
+        var count = parseFloat(document.getElementById(count_id).value);
+
+        var eod_count_id = base_amount + "_eod_count";
+        var eod_value_id = base_amount + "_eod_value";
+
+        while(!isNaN(count) && count >= 0){
+            var interim_amount = deposit_amount;
+            interim_amount += (denomination * count);
+            if(interim_amount > eodEarnings){
+                count -= 1;
+            }
+            else{
+                break;
+            }
+        }
+        deposit_amount += (denomination * count);
+        document.getElementById(eod_count_id).innerHTML = count.toString();
+        document.getElementById(eod_value_id).innerHTML = (denomination * count).toString();
+
+    }
+    document.getElementById("eod_deposit_value").innerHTML = deposit_amount.toString();
+    console.log(deposit_amount);
+}
+
 document.getElementById("cashJournalAmount_close").addEventListener("change", () =>{
     calculateTotalCashValue("open");
     calculateTotalCashValue("close");
     finalizeCashOutcome("open");
     finalizeCashOutcome("close");
+    setDeposit();
 });
+
 
 // CREDIT & DEBIT RECONCILIATION --------------------------------------------------------------------------------------------------
 
