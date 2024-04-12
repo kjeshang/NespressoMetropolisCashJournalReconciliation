@@ -122,6 +122,9 @@ function calculateTotalCashValue(shift){
         }
     }
     var id = "total_amount_" + shift;
+    if(shift == "close"){
+        sumTotal = sumTotal - 300;
+    }
     document.getElementById(id).innerHTML = sumTotal.toString();
 }
 
