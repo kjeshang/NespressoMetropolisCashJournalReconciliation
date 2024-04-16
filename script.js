@@ -141,11 +141,12 @@ function calculateTotalCashValue(shift){
     }
     var id = "total_amount_" + shift;
     if(shift == "close"){
-        var cashJournal_amount = parseFloat(document.getElementById("cashJournalAmount_close").value);
-        var total_amount = parseFloat(document.getElementById(id).innerHTML.toString());
-        if(total_amount > cashJournal_amount){
-            sumTotal = sumTotal - 300;
-        }
+        // var cashJournal_amount = parseFloat(document.getElementById("cashJournalAmount_close").value);
+        // var total_amount = parseFloat(document.getElementById(id).innerHTML.toString());
+        // if(total_amount > cashJournal_amount){
+        //     sumTotal = sumTotal - 300;
+        // }
+        sumTotal = sumTotal - 300;
     }
     document.getElementById(id).innerHTML = sumTotal.toString();
 }
