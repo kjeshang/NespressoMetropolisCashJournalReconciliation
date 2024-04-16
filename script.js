@@ -141,7 +141,11 @@ function calculateTotalCashValue(shift){
     }
     var id = "total_amount_" + shift;
     if(shift == "close"){
-        sumTotal = sumTotal - 300;
+        var cashJournal_amount = parseFloat(document.getElementById("cashJournalAmount_close").value);
+        var total_amount = parseFloat(document.getElementById(id).innerHTML.toString());
+        if(total_amount > cashJournal_amount){
+            sumTotal = sumTotal - 300;
+        }
     }
     document.getElementById(id).innerHTML = sumTotal.toString();
 }
@@ -203,6 +207,9 @@ function setDeposit(){
 
         var denomination = parseFloat(document.getElementById(denomination_id).innerHTML.toString());
         var count = parseFloat(document.getElementById(count_id).value);
+        if(isNaN(count)){
+            count = 0;
+        }
 
         var eod_count_id = base_amount + "_eod_count";
         var eod_value_id = base_amount + "_eod_value";
