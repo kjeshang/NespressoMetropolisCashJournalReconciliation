@@ -85,7 +85,7 @@ function calculateCashValue(base_amount){
         document.getElementById(value_id).innerHTML = 0;
     }
     else{
-        document.getElementById(value_id).innerHTML = product_value.toString();
+        document.getElementById(value_id).innerHTML = product_value.toFixed(2).toString();
     }
 }
 
@@ -93,8 +93,8 @@ function calculateCashValue(base_amount){
 function finalizeCashOutcome(shift){
     // var total_amount = parseFloat(document.getElementById("total_amount").innerHTML.toString());
     if(shift == "open"){
-        var total_amount = parseFloat(document.getElementById("total_amount_open").innerHTML.toString());
-        var cashJournalAmount = parseFloat(document.getElementById("cashJournalAmount_open").innerHTML);
+        var total_amount = parseFloat(document.getElementById("total_amount_open").innerHTML.toString()).toFixed(2);
+        var cashJournalAmount = parseFloat(document.getElementById("cashJournalAmount_open").innerHTML).toFixed(2);
         var outcome = "";
         if(cashJournalAmount > total_amount){
             outcome = "Short";
@@ -106,13 +106,13 @@ function finalizeCashOutcome(shift){
             outcome = "Balanced"
         }
         document.getElementById("outcome_cashOpen").innerHTML = outcome;
-        difference = Math.abs(total_amount - cashJournalAmount);
+        difference = Math.abs(total_amount - cashJournalAmount).toFixed(2);
         document.getElementById("difference_cashOpen").innerHTML = difference;
     }
     else if(shift == "close"){
         console.log(shift);
-        var total_amount = parseFloat(document.getElementById("total_amount_close").innerHTML.toString());
-        var cashJournalAmount = parseFloat(document.getElementById("cashJournalAmount_close").value);
+        var total_amount = parseFloat(document.getElementById("total_amount_close").innerHTML.toString()).toFixed(2);
+        var cashJournalAmount = parseFloat(document.getElementById("cashJournalAmount_close").value).toFixed(2);
         var outcome = "";
         if(cashJournalAmount > total_amount){
             outcome = "Short";
@@ -124,7 +124,7 @@ function finalizeCashOutcome(shift){
             outcome = "Balanced"
         }
         document.getElementById("outcome_cashClose").innerHTML = outcome;
-        difference = Math.abs(total_amount - cashJournalAmount);
+        difference = Math.abs(total_amount - cashJournalAmount).toFixed(2);
         document.getElementById("difference_cashClose").innerHTML = difference.toString();
     }
 }
@@ -134,7 +134,7 @@ function calculateTotalCashValue(shift){
     sumTotal = 0;
     for(i=0; i < numberOfTR; i++){
         var value_id = denomination_list[i] + "_value";
-        product_value = parseFloat(document.getElementById(value_id).innerHTML);
+        product_value = parseFloat(document.getElementById(value_id).innerHTML).toFixed(2);
         if(!isNaN(product_value)){
             sumTotal += parseFloat(product_value);
         }
@@ -148,7 +148,7 @@ function calculateTotalCashValue(shift){
         // }
         sumTotal = sumTotal - 300;
     }
-    document.getElementById(id).innerHTML = sumTotal.toString();
+    document.getElementById(id).innerHTML = sumTotal.toFixed(2).toString();
 }
 
 document.getElementById("cash_table").addEventListener("change", () => {
@@ -194,7 +194,7 @@ document.getElementById("cash_table").addEventListener("change", () => {
 
 // *** Set EOD Deposit ***
 function setDeposit(){
-    var eodEarnings = parseFloat(document.getElementById("total_amount_close").innerHTML.toString());
+    var eodEarnings = parseFloat(document.getElementById("total_amount_close").innerHTML.toString()).toFixed(2);
     console.log(eodEarnings);
     var deposit_amount = 0;
 
@@ -227,10 +227,10 @@ function setDeposit(){
         }
         deposit_amount += (denomination * count);
         document.getElementById(eod_count_id).innerHTML = count.toString();
-        document.getElementById(eod_value_id).innerHTML = (denomination * count).toString();
+        document.getElementById(eod_value_id).innerHTML = (denomination * count).toFixed(2).toString();
 
     }
-    document.getElementById("eod_deposit_value").innerHTML = deposit_amount.toString();
+    document.getElementById("eod_deposit_value").innerHTML = deposit_amount.toFixed(2).toString();
     console.log(deposit_amount);
 }
 
@@ -255,23 +255,23 @@ console.log("Number of <tr> elements in <tbody>: " + numberOfTR_creditDebit);
 // *** Outcome for a specific sales desk ***
 function calculateCreditDebitValue(salesDesk){
     
-    var terminal_amount = parseFloat(document.getElementById("terminal_"+salesDesk).value);
+    var terminal_amount = parseFloat(document.getElementById("terminal_"+salesDesk).value).toFixed(2);
     if(isNaN(terminal_amount)){
         terminal_amount = 0;
     }
     
-    var pos_amount = parseFloat(document.getElementById("pos_"+salesDesk).value);
+    var pos_amount = parseFloat(document.getElementById("pos_"+salesDesk).value).toFixed(2);
     if(isNaN(pos_amount)){
         pos_amount = 0;
     }
     
-    var register_amount = parseFloat(document.getElementById("register_"+salesDesk).value);
+    var register_amount = parseFloat(document.getElementById("register_"+salesDesk).value).toFixed(2);
     if(isNaN(register_amount)){
         register_amount = 0;
     }
 
-    var cashJournal_amount = parseFloat(pos_amount) + parseFloat(register_amount);
-    var difference = Math.abs(parseFloat(terminal_amount) - parseFloat(cashJournal_amount));
+    var cashJournal_amount = (parseFloat(pos_amount) + parseFloat(register_amount)).toFixed(2);
+    var difference = Math.abs(parseFloat(terminal_amount) - parseFloat(cashJournal_amount)).toFixed(2);
     var outcome = "";
     if(terminal_amount > cashJournal_amount){
         outcome = "Over";
@@ -317,10 +317,10 @@ function finalizeCreditDebitOutcome(){
     }
     console.log(total_terminalAmount);
 
-    var totalCashJournal_amount = parseFloat(total_posAmount) + parseFloat(total_registerAmount);
+    var totalCashJournal_amount = (parseFloat(total_posAmount) + parseFloat(total_registerAmount)).toFixed(2);
     console.log(totalCashJournal_amount);
     
-    var overall_difference = Math.abs(parseFloat(total_terminalAmount) - parseFloat(totalCashJournal_amount));
+    var overall_difference = Math.abs(parseFloat(total_terminalAmount) - parseFloat(totalCashJournal_amount)).toFixed(2);
     console.log(overall_difference);
     
     var final_outcome = "";
