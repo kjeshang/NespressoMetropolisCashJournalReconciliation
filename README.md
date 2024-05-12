@@ -24,11 +24,13 @@ Below is a logical tables constructed to explain the concept of determining the 
 
 |Credit/Debit Transaction Scenario|Cash Transaction Scenario|Outcome|
 |--|--|--|
-|Cash Journal Amount  > Terminal Amount|Cash Journal Amount > Total Physical Cash in cashbox|Short|
-|Cash Journal Amount  < Terminal Amount|Cash Journal Amount < Total Physical Cash in cashbox|Over|
+|Cash Journal Amount  > Terminal Amount|Cash Journal Amount > Total Physical Cash in cashbox|***Short*** (The customer did not pay the full amount, or were undercharged)|
+|Cash Journal Amount  < Terminal Amount|Cash Journal Amount < Total Physical Cash in cashbox|***Over*** (The customer paid more than they should have, or were overcharged by mistake)|
 |Cash Journal Amount  = Terminal Amount|Cash Journal Amount = Total Physical Cash in cashbox|Balanced|
 
 ## Features
+
+All features are generally accessed via the navigation bar links/buttons. There may be additional buttons in the respective reconciliation features to see more information regarding the outcome of the reconciliation.
 
 |Feature|How it is accessed|Description|
 |--|--|--|
