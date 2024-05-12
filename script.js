@@ -1,5 +1,6 @@
 // *** Initialization Variables***
-document.getElementById("creditDebitReconciliation").style.display = "none";
+// document.getElementById("creditDebitReconciliation").style.display = "none";
+document.getElementById("cashReconciliation").style.display = "none";
 document.getElementById("open_cashReconciliation").style.display = "none";
 document.getElementById("close_cashReconciliation").style.display = "none";
 document.getElementById("creditCash_summary").style.display = "none";
