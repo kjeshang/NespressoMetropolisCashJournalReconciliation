@@ -317,7 +317,10 @@ function finalizeCreditDebitOutcome(){
         }
     }
     console.log(total_terminalAmount);
-
+    
+    // Rounding for terminal amount:
+    total_terminalAmount = total_terminalAmount.toFixed(2);
+    
     var totalCashJournal_amount = (parseFloat(total_posAmount) + parseFloat(total_registerAmount)).toFixed(2);
     console.log(totalCashJournal_amount);
     
