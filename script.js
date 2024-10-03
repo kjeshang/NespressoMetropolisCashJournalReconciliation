@@ -70,7 +70,7 @@ var denomination_list = [
 var tbody = document.getElementById("tbody_cash");
 var trElements = tbody.getElementsByTagName("tr");
 var numberOfTR = trElements.length;
-console.log("Number of <tr> elements in <tbody>: " + numberOfTR);
+// console.log("Number of <tr> elements in <tbody>: " + numberOfTR);
 
 // *** Calculate Cash Value per Denomination ***
 function calculateCashValue(base_amount){
@@ -194,46 +194,86 @@ document.getElementById("cash_table").addEventListener("change", () => {
 });
 
 // *** Set EOD Deposit ***
-function setDeposit(){
-    var eodEarnings = parseFloat(document.getElementById("total_amount_close").innerHTML.toString()).toFixed(2);
-    console.log(eodEarnings);
+// function setDeposit(){
+//     var eodEarnings = parseFloat(document.getElementById("total_amount_close").innerHTML.toString()).toFixed(2);
+//     console.log(eodEarnings);
+//     var deposit_amount = 0;
+
+//     for(i=0; i < denomination_list.length; i++){
+//         var base_amount = denomination_list[i];
+//         // console.log(base_amount);
+//         var denomination_id = base_amount + "_denomination";
+//         // console.log(denomination_id);
+//         var count_id = base_amount + "_count";
+//         // console.log(count_id);
+
+//         var denomination = parseFloat(document.getElementById(denomination_id).innerHTML.toString());
+//         var count = parseFloat(document.getElementById(count_id).value);
+//         if(isNaN(count)){
+//             count = 0;
+//         }
+
+//         var eod_count_id = base_amount + "_eod_count";
+//         var eod_value_id = base_amount + "_eod_value";
+
+//         while(!isNaN(count) && count >= 0){
+//             var interim_amount = deposit_amount;
+//             interim_amount += (denomination * count);
+//             if(interim_amount > eodEarnings){
+//                 count -= 1;
+//             }
+//             else{
+//                 break;
+//             }
+//         }
+//         deposit_amount += (denomination * count);
+//         document.getElementById(eod_count_id).innerHTML = count.toString();
+//         document.getElementById(eod_value_id).innerHTML = (denomination * count).toFixed(2).toString();
+//     }
+//     document.getElementById("eod_deposit_value").innerHTML = deposit_amount.toFixed(2).toString();
+//     console.log(deposit_amount);
+// }
+
+// *** Adjusted EOD Deposit function ***
+function setDeposit() {
+    var eodEarnings = Math.round(parseFloat(document.getElementById("total_amount_close").innerHTML) * 100);
+    console.log("End of Day Earnings: " + (eodEarnings / 100).toFixed(2));
     var deposit_amount = 0;
 
-    for(i=0; i < denomination_list.length; i++){
+    for (var i = 0; i < denomination_list.length; i++) {
         var base_amount = denomination_list[i];
-        // console.log(base_amount);
         var denomination_id = base_amount + "_denomination";
-        // console.log(denomination_id);
         var count_id = base_amount + "_count";
-        // console.log(count_id);
 
-        var denomination = parseFloat(document.getElementById(denomination_id).innerHTML.toString());
+        // Get the denomination value and count from the DOM
+        var denomination = Math.round(parseFloat(document.getElementById(denomination_id).innerHTML) * 100);
         var count = parseFloat(document.getElementById(count_id).value);
-        if(isNaN(count)){
-            count = 0;
+        if (isNaN(count)) {
+            count = 0;  // Set count to 0 if it's not a valid number
         }
 
+        // Calculate interim deposit amount and check against earnings
+        var interim_amount = deposit_amount + (denomination * count);
+        while (interim_amount > eodEarnings && count > 0) {
+            count -= 1;
+            interim_amount = deposit_amount + (denomination * count);
+        }
+
+        // Accumulate the final deposit amount
+        deposit_amount += (denomination * count);
+
+        // Update the DOM with the calculated counts and values
         var eod_count_id = base_amount + "_eod_count";
         var eod_value_id = base_amount + "_eod_value";
-
-        while(!isNaN(count) && count >= 0){
-            var interim_amount = deposit_amount;
-            interim_amount += (denomination * count);
-            if(interim_amount > eodEarnings){
-                count -= 1;
-            }
-            else{
-                break;
-            }
-        }
-        deposit_amount += (denomination * count);
         document.getElementById(eod_count_id).innerHTML = count.toString();
-        document.getElementById(eod_value_id).innerHTML = (denomination * count).toFixed(2).toString();
-
+        document.getElementById(eod_value_id).innerHTML = ((denomination * count) / 100).toFixed(2);
     }
-    document.getElementById("eod_deposit_value").innerHTML = deposit_amount.toFixed(2).toString();
-    console.log(deposit_amount);
+
+    // Update the total deposit value
+    document.getElementById("eod_deposit_value").innerHTML = (deposit_amount / 100).toFixed(2);
+    console.log("Final Deposit Amount: " + (deposit_amount / 100).toFixed(2));
 }
+
 
 document.getElementById("cashJournalAmount_close").addEventListener("change", () =>{
     calculateTotalCashValue("open");
@@ -251,7 +291,7 @@ var salesDesk_list = ["A","B","D","G","F","E","H"];
 var tbody_creditDebit = document.getElementById("tbody_creditDebit");
 var trElements_creditDebit = tbody_creditDebit.getElementsByTagName("tr");
 var numberOfTR_creditDebit = trElements_creditDebit.length;
-console.log("Number of <tr> elements in <tbody>: " + numberOfTR_creditDebit);
+// console.log("Number of <tr> elements in <tbody>: " + numberOfTR_creditDebit);
 
 // *** Outcome for a specific sales desk ***
 function calculateCreditDebitValue(salesDesk){
